@@ -61,8 +61,12 @@ async function getJsonValues(fileName = 'data.json') {
     const jsonArray = await response.json();
     const values = jsonArray.flatMap(obj => Object.values(obj));
 
-    // Теперь элемент точно существует
-    document.getElementById('output').textContent = JSON.stringify(values, null, 2);
+    const output = document.getElementById('output');
+    if (output) {
+      output.textContent = JSON.stringify(values, null, 2);
+    } else {
+      console.warn('Элемент #output не найден.');
+    }
 
   } catch (error) {
     console.error('Ошибка:', error);
@@ -72,3 +76,8 @@ async function getJsonValues(fileName = 'data.json') {
     }
   }
 }
+
+// Загружаем данные при загрузке страницы
+window.addEventListener('DOMContentLoaded', () => {
+  getJsonValues();
+});
