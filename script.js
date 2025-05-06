@@ -52,19 +52,10 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function getJsonValues(fileName = 'data.json') {
-  try {
     const response = await fetch(fileName);
-    if (!response.ok) {
-      throw new Error('Ошибка при загрузке JSON');
-    }
 
     const jsonArray = await response.json();
     const output = document.getElementById('output');
-
-    if (!output) {
-      console.warn('Элемент #output не найден.');
-      return;
-    }
 
     output.innerHTML = '';
 
@@ -77,14 +68,7 @@ async function getJsonValues(fileName = 'data.json') {
       reviewBlock.innerHTML = `<strong>${name}</strong><p>${text}</p>`;
       output.appendChild(reviewBlock);
     }
-
-  } catch (error) {
-    console.error('Ошибка:', error);
-    const output = document.getElementById('output');
-    if (output) {
-      output.textContent = 'Ошибка при загрузке данных.';
-    }
-  }
+ 
 }
 
 window.addEventListener('DOMContentLoaded', () => {
