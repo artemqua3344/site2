@@ -47,7 +47,9 @@ document.getElementById('contact-form2').addEventListener('submit', function (e)
   });
 });
 
-
+document.addEventListener('DOMContentLoaded', () => {
+  getJsonValues();
+});
 
 async function getJsonValues(fileName = 'data.json') {
   try {
@@ -59,15 +61,14 @@ async function getJsonValues(fileName = 'data.json') {
     const jsonArray = await response.json();
     const values = jsonArray.flatMap(obj => Object.values(obj));
 
-    // Выводим на страницу
+    // Теперь элемент точно существует
     document.getElementById('output').textContent = JSON.stringify(values, null, 2);
-    return values;
 
   } catch (error) {
     console.error('Ошибка:', error);
-    document.getElementById('output').textContent = 'Ошибка при загрузке данных.';
-    return [];
+    const output = document.getElementById('output');
+    if (output) {
+      output.textContent = 'Ошибка при загрузке данных.';
+    }
   }
 }
-
-getJsonValues();
