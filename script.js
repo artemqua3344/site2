@@ -59,14 +59,30 @@ async function getJsonValues(fileName = 'data.json') {
     }
 
     const jsonArray = await response.json();
-    const values = jsonArray.flatMap(obj => Object.values(obj));
-
     const output = document.getElementById('output');
-    if (output) {
-      output.textContent = JSON.stringify(values, null, 2);
-    } else {
+
+    if (!output) {
       console.warn('Элемент #output не найден.');
+      return;
     }
+
+    // Очищаем содержимое перед добавлением новых данных
+    output.innerHTML = '';
+
+    jsonArray.forEach(item => {
+      const name = item.name;
+      const text = item.text;
+
+      // Создаем HTML для вывода отзыва
+      const reviewBlock = document.createElement('div');
+      reviewBlock.style.border = '1px solid #ccc';
+      reviewBlock.style.padding = '10px';
+      reviewBlock.style.marginBottom = '10px';
+      reviewBlock.style.backgroundColor = '#f9f9f9';
+
+      reviewBlock.innerHTML = `<strong>${name}</strong><p>${text}</p>`;
+      output.appendChild(reviewBlock);
+    });
 
   } catch (error) {
     console.error('Ошибка:', error);
@@ -79,5 +95,5 @@ async function getJsonValues(fileName = 'data.json') {
 
 // Загружаем данные при загрузке страницы
 window.addEventListener('DOMContentLoaded', () => {
-  data = getJsonValues();
+  getJsonValues();
 });
