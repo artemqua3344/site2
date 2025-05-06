@@ -79,5 +79,5 @@ async function getJsonValues(fileName = 'data.json') {
 
 // Загружаем данные при загрузке страницы
 window.addEventListener('DOMContentLoaded', () => {
-  getJsonValues();
+  data = getJsonValues();
 });
