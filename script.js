@@ -66,23 +66,28 @@ async function getJsonValues(fileName = 'data.json') {
       return;
     }
 
-    // Очищаем содержимое перед добавлением новых данных
+    // Очищаем контейнер перед добавлением новых данных
     output.innerHTML = '';
 
-    jsonArray.forEach(item => {
-      const name = item.name;
-      const text = item.text;
+    // Перебираем все отзывы в массиве
+    for (let i = 0; i < jsonArray.length; i++) {
+      const name = jsonArray[i].name;
+      const text = jsonArray[i].text;
 
-      // Создаем HTML для вывода отзыва
+      // Создаём блок для одного отзыва
       const reviewBlock = document.createElement('div');
+      reviewBlock.classList.add('review');
       reviewBlock.style.border = '1px solid #ccc';
       reviewBlock.style.padding = '10px';
       reviewBlock.style.marginBottom = '10px';
       reviewBlock.style.backgroundColor = '#f9f9f9';
 
+      // Записываем имя и текст в HTML-блок
       reviewBlock.innerHTML = `<strong>${name}</strong><p>${text}</p>`;
+
+      // Добавляем блок в основной контейнер
       output.appendChild(reviewBlock);
-    });
+    }
 
   } catch (error) {
     console.error('Ошибка:', error);
@@ -93,7 +98,7 @@ async function getJsonValues(fileName = 'data.json') {
   }
 }
 
-// Загружаем данные при загрузке страницы
+// Загружаем отзывы при загрузке страницы
 window.addEventListener('DOMContentLoaded', () => {
   getJsonValues();
 });
