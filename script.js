@@ -1,31 +1,14 @@
 document.getElementById('contact-form').addEventListener('submit', function (event) {
-  event.preventDefault();
-
+  event.preventDefault(); 
   const form = event.target;
   const formData = new FormData(form);
-  const xhr = new XMLHttpRequest();
 
-  xhr.open('POST', 'http://127.0.0.1', true);
+  fetch('http://127.0.0.1', {
+    method: 'POST',
+    body: formData,
+  })
 
-  xhr.onload = function () {
-    if (xhr.status >= 200 && xhr.status < 300) {
-      alert('Форма успешно отправлена!');
-      console.log('Ответ сервера:', xhr.responseText);
-      form.reset();
-    } else {
-      alert('Ошибка при отправке формы');
-      console.error('Ошибка:', xhr.statusText);
-    }
-  };
-
-  xhr.onerror = function () {
-    alert('Ошибка при отправке формы');
-    console.error('Ошибка сети');
-  };
-
-  xhr.send(formData);
 });
-
 
 
 document.getElementById('contact-form2').addEventListener('submit', function (e) {
