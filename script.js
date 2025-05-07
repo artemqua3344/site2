@@ -1,26 +1,29 @@
 document.getElementById('contact-form').addEventListener('submit', function (event) {
-  event.preventDefault(); // Отменяем отправку формы
+  event.preventDefault();
 
   const form = event.target;
   const formData = new FormData(form);
+  const xhr = new XMLHttpRequest();
 
-  fetch('http://127.0.0.1', {
-    method: 'POST',
-    body: formData,
-  })
-    .then(response => {
-      if (!response.ok) throw new Error("Ошибка сети");
-      return response.text(); // или .json() если ожидается JSON
-    })
-    .then(data => {
+  xhr.open('POST', 'http://127.0.0.1', true);
+
+  xhr.onload = function () {
+    if (xhr.status >= 200 && xhr.status < 300) {
       alert('Форма успешно отправлена!');
-      console.log('Ответ сервера:', data);
-      form.reset(); // очищаем форму
-    })
-    .catch(error => {
+      console.log('Ответ сервера:', xhr.responseText);
+      form.reset();
+    } else {
       alert('Ошибка при отправке формы');
-      console.error('Ошибка:', error);
-    });
+      console.error('Ошибка:', xhr.statusText);
+    }
+  };
+
+  xhr.onerror = function () {
+    alert('Ошибка при отправке формы');
+    console.error('Ошибка сети');
+  };
+
+  xhr.send(formData);
 });
 
 
